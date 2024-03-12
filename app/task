@@ -1,0 +1,70 @@
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'task_model.dart';
+export 'task_model.dart';
+
+class TaskWidget extends StatefulWidget {
+  const TaskWidget({super.key});
+
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  late TaskModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => TaskModel());
+  }
+
+  @override
+  void dispose() {
+    _model.maybeDispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        checkboxTheme: CheckboxThemeData(
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        unselectedWidgetColor: FlutterFlowTheme.of(context).secondaryText,
+      ),
+      child: CheckboxListTile(
+        value: _model.checkboxListTileValue ??= true,
+        onChanged: (newValue) async {
+          setState(() => _model.checkboxListTileValue = newValue!);
+        },
+        title: Text(
+          'Title',
+          style: FlutterFlowTheme.of(context).titleLarge,
+        ),
+        subtitle: Text(
+          'Subtitle goes here...',
+          style: FlutterFlowTheme.of(context).labelMedium,
+        ),
+        tileColor: FlutterFlowTheme.of(context).secondaryBackground,
+        activeColor: FlutterFlowTheme.of(context).primary,
+        checkColor: FlutterFlowTheme.of(context).info,
+        dense: false,
+        controlAffinity: ListTileControlAffinity.trailing,
+      ),
+    );
+  }
+}
